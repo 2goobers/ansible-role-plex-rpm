@@ -1,0 +1,43 @@
+---
+- name: set up plex repo
+  yum_repository:
+    name: Plex
+    description: Plex Media Server - $basearch
+    baseurl: https://downloads.plex.tv/repo/rpm/$basearch/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+- name: install plexmediaserver
+  yum:
+    name: plexmediaserver
+    state: installed
+- name: restore plex from back up
+  unarchive:
+    src: "/mnt/Backup/plex/pms.tar.gz"
+    dest: "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server"
+    remote_src: yes
+- name: start plexmediaserver
+  systemd:
+    name: plexmediaserver
+    enabled: yes
+    state: started
+- name: import plex and tautulli firewalld service files
+  git:
+    repo: https://github.com/2goobers/firewalld-services.git
+    dest: /tmp/
+- name: copy plex firewalld service file
+  copy:
+    remote_src: yes
+    src: /tmp/firewalld-services/plex.xml
+    dest: /etc/firewalld/services/plex.xml
+- name: restart firewalld
+  systemd:
+    name: firewalld
+    state: restarted
+- name: open ports in firewall for plex
+  firewalld:
+    permanent: yes
+    immediate: yes
+    service: plex
+    state: enabled
+...
