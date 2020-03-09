@@ -11,11 +11,6 @@
   yum:
     name: plexmediaserver
     state: installed
-- name: restore plex from back up
-  unarchive:
-    src: "/mnt/Backup/plex/pms.tar.gz"
-    dest: "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server"
-    remote_src: yes
 - name: start plexmediaserver
   systemd:
     name: plexmediaserver
