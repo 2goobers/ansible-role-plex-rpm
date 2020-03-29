@@ -7,32 +7,39 @@
     gpgcheck: yes
     enabled: yes
     gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+
 - name: install plexmediaserver
   yum:
     name: plexmediaserver
     state: installed
+
 - name: start plexmediaserver
   systemd:
     name: plexmediaserver
     enabled: yes
     state: started
-- name: import plex and tautulli firewalld service files
+
+- name: import plex firewalld service file
   git:
     repo: https://github.com/2goobers/firewalld-services.git
     dest: /tmp/
+
 - name: copy plex firewalld service file
   copy:
     remote_src: yes
     src: /tmp/firewalld-services/plex.xml
     dest: /etc/firewalld/services/plex.xml
+
 - name: restart firewalld
   systemd:
     name: firewalld
     state: restarted
+
 - name: open ports in firewall for plex
   firewalld:
     permanent: yes
     immediate: yes
     service: plex
     state: enabled
+
 ...
