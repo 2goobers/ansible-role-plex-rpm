@@ -1,3 +1,4 @@
 ---
-restore_fm_nas: true
+restore_fm_nas: false
+restore_src: /tmp/pms.tar.gz
 ...
