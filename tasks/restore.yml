@@ -6,7 +6,7 @@
     
 - name: restore from nas
   unarchive:
-    src: /mnt/Backup/plex/pms.tar.gz
+    src: {{ restore_src }}
     dest: /var/lib/plexmediaserver/Library/Application Support
     remote_src: true
 
