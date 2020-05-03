@@ -42,4 +42,7 @@
     service: plex
     state: enabled
 
+- name: Restore Plex from NAS
+  include_tasks: restore.yml
+  when: restore_fm_nas
 ...
