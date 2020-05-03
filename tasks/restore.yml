@@ -6,5 +6,12 @@
     
 - name: restore from nas
   unarchive:
-    
-  
+    src: /mnt/Backup/plex/pms.tar.gz
+    dest: /var/lib/plexmediaserver/Library/Application Support
+    remote_src: true
+
+- name: start plex service
+  systemd:
+    name: plexmediaserver
+    state: started
+...
