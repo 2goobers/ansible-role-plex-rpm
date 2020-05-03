@@ -1,3 +1,10 @@
 ---
-- name: restore plex from nas
+- name: stop plex service
+  systemd:
+    name: plexmediaserver
+    state: stopped
+    
+- name: restore from nas
+  unarchive:
+    
   
